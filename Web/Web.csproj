@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/2d4dc7b2-21d7-4398-9fa5-238684687c92/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Web</ApplicationInsightsResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -81,6 +88,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -149,20 +157,52 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\API\OrderController.cs" />
+    <Compile Include="Controllers\API\CompaniesController.cs" />
+    <Compile Include="Controllers\API\OrderProductsController.cs" />
+    <Compile Include="Controllers\API\OrdersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Database.cs" />
-    <Compile Include="Infrastructure\OrderService.cs" />
-    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\BrainWareModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrainWareModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrainWareModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrainWareModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrainWareModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BrainWareModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Company.cs">
+      <DependentUpon>BrainWareModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CompanyExtended.cs" />
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>BrainWareModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderExtended.cs" />
+    <Compile Include="Models\OrderProduct.cs">
+      <DependentUpon>BrainWareModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderProductExtended.cs" />
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>BrainWareModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductExtended.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -177,7 +217,24 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EntityDeploy Include="Models\BrainWareModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BrainWareModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BrainWareModel.edmx.diagram">
+      <DependentUpon>BrainWareModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Models\BrainWareModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>BrainWareModel.Context.cs</LastGenOutput>
+      <DependentUpon>BrainWareModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\BrainWareModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BrainWareModel.edmx</DependentUpon>
+      <LastGenOutput>BrainWareModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

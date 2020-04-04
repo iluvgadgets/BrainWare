@@ -7,30 +7,36 @@
         <h2>Your Orders</h2>
         <div id="orders"></div>
     </div>
-  
+
 </div>
+
+<!-- Decided just to use the current frontend implemenation, I would recommend using ASP.NET MVC Razor -->
 <script>
     $(document).ready(function () {
         var $orders = $('#orders');
         $.ajax({
-            'url': '/api/order/1',
+            'url': '/api/companies/1',
             'type': 'GET',
             'success': function (data) {
 
                 var $orderList = $('<ul/>');
 
                 if (data) {
-                    $.each(data,
-                        function(i) {
-                            var $li = $('<li/>').text(this.Description + ' (Total: $' + this.OrderTotal + ')')
+                    $.each(data.Orders,
+                        function (i) {
+                            var $li = $('<li/>').text(this.description + ' (Total: $')
                                 .appendTo($orderList);
 
                             var $productList = $('<ul/>');
+                            var currentOrderTotal = 0;
 
-                            $.each(this.OrderProducts, function(j) {
-                                var $li2 = $('<li/>').text(this.Product.Name + ' ('+ this.Quantity +' @@ $' + this.Price + '/ea)')
+                            $.each(this.OrderProducts, function (j) {
+                                var $li2 = $('<li/>').text(this.Product.name + ' (' + this.quantity + ' @@ $' + Number(this.price).toFixed(2) + '/ea)')
                                     .appendTo($productList);
+                                currentOrderTotal += (this.quantity * this.price);
                             });
+
+                            $li.append(Number(currentOrderTotal).toFixed(2) + ')');
 
                             $productList.appendTo($li);
                         });
@@ -41,4 +47,3 @@
         });
     });
 </script>
-
